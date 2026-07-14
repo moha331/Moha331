@@ -1,4 +1,3 @@
-cat > /mnt/user-data/outputs/dt-military-site/server.js << 'EOF'
 const express = require('express');
 const session = require('express-session');
 const axios = require('axios');
@@ -227,5 +226,3 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-EOF
-echo "server done"
