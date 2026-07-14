@@ -222,8 +222,64 @@ app.get("/api/mdt/:idNumber", async (req, res) => {
     }
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+const fs = require("fs");
+app.post("/api/priority", async (req, res) => {
+
+    if (!req.session.userId)
+        return res.json({
+            success: false,
+            message: "غير مسجل دخول"
+        });
+
+    try {
+
+        const { priority } = req.body;
+
+        const allow = [
+            "priority_0",
+            "priority_4",
+            "priority_7",
+            "priority_10",
+            "priority_14",
+            "priority_code0"
+        ];
+
+        if (!allow.includes(priority))
+            return res.json({
+                success: false,
+                message: "أولوية غير صحيحة"
+            });
+
+        // هنا تقدر تضيف لوق أو ترسل لديسكورد
+
+        return res.json({
+            success: true,
+            message: "تم إرسال الأولوية بنجاح"
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        return res.json({
+            success: false,
+            message: "حدث خطأ"
+        });
+
+    }
+
+});
+app.get("*", (req, res) => {
+    let html = fs.readFileSync(
+        path.join(__dirname, "public", "index.html"),
+        "utf8"
+    );
+
+    html = html
+        .replace(/__LOGO_URL__/g, LOGO_URL)
+        .replace(/__BG_URL__/g, BG_URL);
+
+    res.send(html);
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
