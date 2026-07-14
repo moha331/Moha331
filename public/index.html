@@ -724,7 +724,71 @@ function openModal(id){ document.getElementById(id).classList.add('show'); }
 function closeModal(id){ document.getElementById(id).classList.remove('show'); }
 function toast(msg,type){ const t=document.getElementById('toast'); t.textContent=msg; t.className=`toast ${type} show`; clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),3000); }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeMDT(); closeViol(); closePrior(); closeMenu(); } });
+async function sendPriority(priority) {
 
+    const status = document.getElementById("prior-status");
+    const grid = document.getElementById("prior-grid");
+
+    grid.querySelectorAll("button").forEach(b => b.disabled = true);
+
+    status.innerHTML = `
+        <div class="prior-sending">
+            جاري إرسال الأولوية...
+        </div>
+    `;
+
+    try {
+
+        const res = await fetch("/api/priority", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                priority
+            })
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+            status.innerHTML = `
+                <div class="prior-done">
+                    <div class="prior-done-txt">❌ ${data.message}</div>
+                </div>
+            `;
+        } else {
+
+            status.innerHTML = `
+                <div class="prior-done">
+                    <div class="prior-done-txt">
+                        ✅ ${data.message}
+                    </div>
+                </div>
+            `;
+
+            setTimeout(() => {
+                closePrior();
+                status.innerHTML = "";
+            }, 1500);
+
+        }
+
+    } catch (err) {
+
+        status.innerHTML = `
+            <div class="prior-done">
+                <div class="prior-done-txt">
+                    ❌ حدث خطأ
+                </div>
+            </div>
+        `;
+
+    }
+
+    grid.querySelectorAll("button").forEach(b => b.disabled = false);
+
+}
 init();
 </script>
 </body>
