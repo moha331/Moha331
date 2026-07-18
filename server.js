@@ -11,7 +11,7 @@ const app = express();
 const LOGO_URL = "https://cdn.discordapp.com/attachments/1491450273892143285/1526729536283349093/IMG_5977.webp?ex=6a58152e&is=6a56c3ae&hm=a17eb5802a4cf947f3238606c7c3580e253b866a2def9b3f4518069effc4e688&.png";
 const BG_URL = "https://cdn.discordapp.com/attachments/1491450273892143285/1526730668611211264/IMG_5440.jpg";
 const CLIENT_ID = '1526445155530576034';
-const CLIENT_SECRET = 'Sz57nIWYPu8GFTNTgBkeNHseFGyUGMpu';
+const CLIENT_SECRET = 'BWSOpfKSKf5TXMUE7rmKRhODvAjH_o68';
 const GUILD_ID = '1418423847790579784';
 const PORT = process.env.PORT || 3000;
 const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
